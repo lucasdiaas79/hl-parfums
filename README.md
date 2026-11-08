@@ -1,28 +1,17 @@
-# HL Parfums
+# HL Parfums — Loja (catálogo)
 
-Dois aplicativos independentes no mesmo repositório, ligados ao mesmo banco (Supabase):
-
-| Pasta | O que é | Projeto na Vercel |
-|---|---|---|
-| `/` (raiz) | **Loja / catálogo** público | Root Directory: *(vazio)* |
-| `/admin` | **Painel administrativo** (login, ofertas, nova oferta, lixeira) | Root Directory: `admin` |
-
-A loja não tem nenhuma rota nem link para o painel.
+Catálogo público da HL Parfums. Pedidos pelo WhatsApp. O painel administrativo fica em outro repositório: `lucasdiaas79/hl-parfums-admin`. Os dois usam o mesmo banco no Supabase.
 
 ## Publicar na Vercel
-1. **Add New → Project → importar `lucasdiaas79/hl-parfums`** → Framework: Next.js → Root Directory vazio → Deploy. (Loja)
-2. **Add New → Project → importar o mesmo repositório de novo** → Root Directory: `admin` → Deploy. (Painel)
-3. Em cada projeto, **Settings → Domains** para ligar o domínio próprio (ex.: `hlparfums.com.br` na loja e `admin.hlparfums.com.br` no painel).
-4. No projeto do **painel**, defina a variável `NEXT_PUBLIC_STORE_URL` com o endereço final da loja (usada no botão "Ver loja").
+Add New → Project → importar este repositório → Next.js → Deploy. Depois, Settings → Domains para o domínio da loja.
+Nenhuma variável é obrigatória (URL e chave pública do Supabase têm padrão; veja `.env.example`).
 
-Nenhuma outra variável é obrigatória: URL e chave pública do Supabase já têm padrão no código (`.env.example` mostra como trocar).
+## Como funciona
+- Lê os perfumes do Supabase e atualiza sozinho a cada 1 minuto; se o banco estiver fora do ar, usa a cópia local em `src/data/catalogo.json`.
+- Mostra perfumes Disponíveis e Esgotados (com selo e botão "Avise-me"); itens ocultos ou na Lixeira não aparecem.
+- Fotos do catálogo inicial em `public/fotos`; fotos novas (enviadas pelo painel) vêm do Storage do Supabase.
 
-## Banco (Supabase)
-- `supabase/migrations/0001_catalogo.sql` — estrutura e segurança
-- `supabase/seed.sql` — catálogo inicial (151 perfumes)
-- `supabase/migrations/0002_painel.sql` — lixeira, histórico de preço, limpeza automática (30 dias) e administrador inicial
-
-## Painel
-- Login pelo número (sem +55) e senha. Internamente o número vira o e-mail `NUMERO@hlparfums.app` no Supabase Auth.
-- Para dar acesso a alguém: criar o usuário em Authentication → Users (e-mail `NUMERO@hlparfums.app`, "Auto confirm") e inserir o `user_id` na tabela `admins`.
-- A foto é tratada no navegador (modelo U²-Net `u2netp`, Apache-2.0): remove o fundo, aplica preto e enquadra em 675×900 WebP.
+## Banco (Supabase) — pasta `supabase/`
+- `migrations/0001_catalogo.sql` — estrutura e regras de segurança
+- `seed.sql` — catálogo inicial (151 perfumes)
+- `migrations/0002_painel.sql` — lixeira, histórico de preço, limpeza automática (30 dias) e administrador inicial
