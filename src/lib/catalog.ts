@@ -26,7 +26,7 @@ type Row = {
   notes_top: string;
   notes_heart: string;
   notes_base: string;
-  status: 'active' | 'sold_out' | 'hidden';
+  status: 'active' | 'sold_out' | 'hidden' | 'trashed';
   featured: boolean;
   brands: { name: string } | null;
   categories: { name: string } | null;
@@ -37,7 +37,7 @@ async function fromSupabase(): Promise<Product[] | null> {
   try {
     const q =
       'select=ref,slug,name,gender,price,size,description,notes_top,notes_heart,notes_base,status,featured,brands(name),categories(name),product_images(path,position)' +
-      '&status=neq.hidden&order=position.asc';
+      '&status=in.(active,sold_out)&order=position.asc';
     const res = await fetch(`${SUPABASE_URL}/rest/v1/products?${q}`, {
       headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` },
       next: { revalidate: 60, tags: ['catalog'] },

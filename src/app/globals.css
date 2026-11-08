@@ -334,6 +334,7 @@ button { font: inherit; color: inherit; }
   border: 1px solid rgba(201, 164, 95, 0.35);
   backdrop-filter: blur(6px);
 }
+.tag-out { background: rgba(0, 0, 0, 0.75); color: #f5f1ea; border-color: rgba(245, 241, 234, 0.4); }
 .card-meta { display: flex; flex-direction: column; gap: 4px; }
 .card-brand { font-size: 11px; letter-spacing: 2.6px; text-transform: uppercase; color: var(--bronze); }
 .card-name { font-family: var(--serif); font-size: 27px; line-height: 1.05; font-weight: 500; margin: 2px 0 0; }

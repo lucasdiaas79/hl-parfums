@@ -61,7 +61,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           )}
           <div className="in4" style={{ display: 'flex', flexDirection: 'column', gap: 10, maxWidth: 460 }}>
             <a className="btn btn-wa btn-block" href={waLink(productMessage(p.name, !p.available))} target="_blank" rel="noopener noreferrer" style={{ height: 58 }}>
-              <IconWhats size={20} /> Pedir no WhatsApp
+              <IconWhats size={20} /> {p.available ? 'Pedir no WhatsApp' : 'Esgotado · Avise-me pelo WhatsApp'}
             </a>
             <span className="sheet-hint">A mensagem já vai pronta com o nome do perfume.</span>
           </div>

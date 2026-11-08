@@ -9,7 +9,7 @@ export function ProductCard({ product: p, priority = false, className = '' }: { 
   return (
     <article className={`card ${className}`}>
       <button className="frame-btn" onClick={() => open(p)} aria-label={`Ver detalhes de ${p.name}`}>
-        <span className="tag">{p.gender}</span>
+        <span className={`tag${p.available ? '' : ' tag-out'}`}>{p.available ? p.gender : 'Esgotado'}</span>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={p.image} alt={`${p.name} – ${p.brand}`} width={675} height={900} loading={priority ? 'eager' : 'lazy'} decoding="async" />
       </button>
