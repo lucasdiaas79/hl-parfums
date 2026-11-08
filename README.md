@@ -1,6 +1,6 @@
 # HL Parfums — Loja (catálogo)
 
-Catálogo público da HL Parfums. Pedidos pelo WhatsApp. O painel administrativo fica em outro repositório: `lucasdiaas79/hl-parfums-admin`. Os dois usam o mesmo banco no Supabase.
+Catálogo público da HL Parfums. Pedidos pelo WhatsApp. O painel administrativo fica em outro repositório: `lucasdiaas79/hlparfums-painel`. Os dois usam o mesmo banco no Supabase.
 
 ## Publicar na Vercel
 Add New → Project → importar este repositório → Next.js → Deploy. Depois, Settings → Domains para o domínio da loja.
