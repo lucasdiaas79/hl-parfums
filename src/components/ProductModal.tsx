@@ -2,8 +2,8 @@
 
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import type { Product } from '@/lib/catalog';
-import { formatPrice } from '@/lib/catalog';
+import type { Product } from '@/lib/types';
+import { formatPrice } from '@/lib/types';
 import { productMessage, waLink } from '@/lib/site';
 import { IconClose, IconWhats } from './Icons';
 

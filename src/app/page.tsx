@@ -1,26 +1,20 @@
 import Link from 'next/link';
-import { brands, bySlug, pick, products } from '@/lib/catalog';
+import { brandsOf, getProducts } from '@/lib/catalog';
+
+export const revalidate = 60;
 import { ProductCard } from '@/components/ProductCard';
 import { Rail } from '@/components/Rail';
 import { Consult } from '@/components/Consult';
 
-const FEATURED = [
-  'khamrah-lattafa',
-  'yara-lattafa',
-  'club-de-nuit-intense-man-armaf',
-  'royal-amber-orientica-premium',
-  'asad-lattafa',
-  'fakhar-rose-lattafa',
-  'hawas-ice-rasasi',
-  'amber-oud-al-haramain',
-];
-
-export default function Home() {
-  const featured = pick(FEATURED);
-  const fem = products.filter((p) => p.gender === 'Feminino' && !FEATURED.includes(p.slug)).slice(0, 12);
-  const masc = products.filter((p) => p.gender === 'Masculino' && !FEATURED.includes(p.slug)).slice(0, 12);
-  const brandList = brands();
-  const img = (s: string) => bySlug(s)?.image || '';
+export default async function Home() {
+  const products = await getProducts();
+  const bySlug = (s: string) => products.find((p) => p.slug === s);
+  const featured = products.filter((p) => p.featured).slice(0, 8);
+  const isFeat = (s: string) => featured.some((f) => f.slug === s);
+  const fem = products.filter((p) => p.gender === 'Feminino' && !isFeat(p.slug)).slice(0, 12);
+  const masc = products.filter((p) => p.gender === 'Masculino' && !isFeat(p.slug)).slice(0, 12);
+  const brandList = brandsOf(products);
+  const img = (s: string) => bySlug(s)?.image || featured[0]?.image || '';
 
   const universes = [
     { label: 'Femininos', href: '/perfumes?genero=feminino', image: img('yara-lattafa') },

@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useRef } from 'react';
-import type { Product } from '@/lib/catalog';
+import type { Product } from '@/lib/types';
 import { ProductCard } from './ProductCard';
 import { IconArrow } from './Icons';
 

@@ -1,11 +1,14 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
-import { brands, products } from '@/lib/catalog';
+import { brandsOf, getProducts } from '@/lib/catalog';
+
+export const revalidate = 60;
 
 export const metadata: Metadata = { title: 'Marcas', description: 'Todas as marcas de perfumes disponíveis na HL Parfums.' };
 
-export default function MarcasPage() {
-  const list = brands().sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'));
+export default async function MarcasPage() {
+  const products = await getProducts();
+  const list = brandsOf(products).sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'));
   return (
     <>
       <section className="page-hero">

@@ -3,7 +3,8 @@
 import { useMemo } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { CATEGORIES, GENDERS, brands, products, slugify } from '@/lib/catalog';
+import { CATEGORIES, GENDERS, slugify } from '@/lib/types';
+import type { Brand, Product } from '@/lib/types';
 import { ProductCard } from './ProductCard';
 import { waLink } from '@/lib/site';
 
@@ -16,11 +17,11 @@ const SORTS = [
 
 const norm = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
 
-export function CatalogBrowser() {
+export function CatalogBrowser({ products, brands }: { products: Product[]; brands: Brand[] }) {
   const sp = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
-  const allBrands = useMemo(() => brands(), []);
+  const allBrands = useMemo(() => [...brands].sort((a, b) => a.name.localeCompare(b.name, 'pt-BR')), [brands]);
 
   const genero = sp.get('genero') || '';
   const categoria = sp.get('categoria') || '';
@@ -52,7 +53,7 @@ export function CatalogBrowser() {
     if (ordem === 'maior') l.sort((a, b) => (b.price ?? 0) - (a.price ?? 0));
     if (ordem === 'az') l.sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'));
     return l;
-  }, [gen, cat, brand, q, ordem]);
+  }, [products, gen, cat, brand, q, ordem]);
 
   const title = brand ? brand.name : cat ? `Perfumes ${cat.label}` : gen ? gen.plural : q ? `Busca: “${q}”` : 'Todos os perfumes';
 

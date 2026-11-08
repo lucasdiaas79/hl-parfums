@@ -1,18 +1,21 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import { bySlug, formatPrice, products, slugify } from '@/lib/catalog';
+import { formatPrice, getProducts, slugify } from '@/lib/catalog';
+
+export const revalidate = 60;
+export const dynamicParams = true;
 import { productMessage, waLink } from '@/lib/site';
 import { IconWhats } from '@/components/Icons';
 import { ProductCard } from '@/components/ProductCard';
 
-export function generateStaticParams() {
-  return products.map((p) => ({ slug: p.slug }));
+export async function generateStaticParams() {
+  return (await getProducts()).map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const p = bySlug(slug);
+  const p = (await getProducts()).find((x) => x.slug === slug);
   if (!p) return {};
   return {
     title: `${p.name} – ${p.brand}`,
@@ -23,7 +26,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const p = bySlug(slug);
+  const products = await getProducts();
+  const p = products.find((x) => x.slug === slug);
   if (!p) notFound();
   const related = products.filter((x) => x.slug !== p.slug && (x.brand === p.brand || x.gender === p.gender)).slice(0, 4);
   const hasNotes = p.notes.top || p.notes.heart || p.notes.base;

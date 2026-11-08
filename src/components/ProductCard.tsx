@@ -1,7 +1,7 @@
 'use client';
 
-import type { Product } from '@/lib/catalog';
-import { formatPrice } from '@/lib/catalog';
+import type { Product } from '@/lib/types';
+import { formatPrice } from '@/lib/types';
 import { useProductModal } from './ProductModal';
 
 export function ProductCard({ product: p, priority = false, className = '' }: { product: Product; priority?: boolean; className?: string }) {
