@@ -13,6 +13,7 @@ export default async function Home() {
   const isFeat = (s: string) => featured.some((f) => f.slug === s);
   const fem = products.filter((p) => p.gender === 'Feminino' && !isFeat(p.slug)).slice(0, 12);
   const masc = products.filter((p) => p.gender === 'Masculino' && !isFeat(p.slug)).slice(0, 12);
+  const uni = products.filter((p) => p.gender === 'Unissex' && !isFeat(p.slug)).slice(0, 12);
   const brandList = brandsOf(products);
   const img = (s: string) => bySlug(s)?.image || featured[0]?.image || '';
 
@@ -132,6 +133,7 @@ export default async function Home() {
 
       <Rail eyebrow="04 · Para elas" title="Femininos" em="em destaque" href="/perfumes?genero=feminino" items={fem} />
       <Rail eyebrow="05 · Para eles" title="Masculinos" em="em destaque" href="/perfumes?genero=masculino" items={masc} />
+      <Rail eyebrow="06 · Para todos" title="Unissex" em="em destaque" href="/perfumes?genero=unissex" items={uni} />
 
       {/* Marcas */}
       <div className="marquee" aria-label="Marcas">
